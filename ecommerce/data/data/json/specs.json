@@ -1,0 +1,27 @@
+{
+	"ram": [{
+		"modelo": "Trident Z RGB",
+		"tipo": "DDR4",
+		"clock": "2400MHz"
+	}],
+
+	"gpu": [{
+		"modelo": "AMD Radeon RX 580",
+		"interface": "PCI Express 3.0",
+		"memoria": "GDDR5 8GB"
+	}],
+
+	"motherboard": [{
+		"chipset": "AMD A320",
+		"socket": "AMD AM4 Socket",
+		"forma": "mATX",
+		"conectores": "2x USB 3.1"
+	}],
+
+	"cpu": [{
+		"chipset": "AMD Ryzen 7 2700",
+		"nucleos": "Octa Core",
+		"threads": "16 threads",
+		"garantia": "36 meses"
+	}]
+}

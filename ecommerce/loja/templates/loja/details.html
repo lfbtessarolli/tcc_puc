@@ -1,0 +1,62 @@
+{% extends 'loja/layout.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col s6">		
+	<h2>{{prods.nome}}</h2>
+	<h5>{{prods.categoria}}<h5>
+	<h4><i class="blue-text">{{prods.fornecedor.first_name}}</i></h4>
+	<h3>R$ {{prods.preco}}</h3>
+	<button class="btn-large center red">COMPRAR!</button>
+  </div>
+  <div class="col s6">
+	<img src={{prods.imagem.url}} class="responsive-img">
+  </div>
+</div>
+<div class="row">
+  <p><b>Descrição do Produto:</b> {{prods.descricao}}</p>
+</div>
+<div class="row">
+  <p><b>Especificações:</b></p>
+  <div name="showdata">
+	<table class ="striped">
+	  <tbody id="tabela">
+	  </tbody>
+	</table>
+
+	<script>	
+		    var myList = document.getElementById('tabela');
+			var spec;
+				fetch('http://localhost:8000{{prods.atributos.url}}')
+				.then(function(response) {
+				  if (!response.ok) {
+					throw new Error("HTTP error, status = " + response.status);
+				  }
+				  return response.json();
+				})
+				.then(function(myJson) {
+				  var spec = JSON.parse(JSON.stringify(myJson));
+				  var url = (Object.keys(spec)[0]);
+				  console.log(url);
+				  var prod = eval('spec.'+url+'[0]');
+				  var keys = Object.keys(prod);
+				  var values = Object.values(prod);
+				  for (var k = 0; k < keys.length ; k++) {
+					var tr = document.createElement('tr');
+					var text1 = keys[k];
+					text1 = text1.charAt(0).toUpperCase() + text1.slice(1);
+					var text2 = values[k]					
+					tr.appendChild(document.createElement('td'));
+					tr.appendChild(document.createElement('td'));					
+					tr.cells[0].appendChild(document.createTextNode(text1));					
+					tr.cells[1].appendChild(document.createTextNode(text2));
+					myList.appendChild(tr);
+					}
+				});
+			
+				
+	</script>
+	
+  </div>
+</div>
+{% endblock %}

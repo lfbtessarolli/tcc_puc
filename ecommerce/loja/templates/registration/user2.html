@@ -1,0 +1,177 @@
+{% extends 'loja/layout.html' %}
+
+{% block content %}
+  <div class="row">
+	{% if user.is_authenticated %}
+	  <h4>Olá {{ user.first_name }}!</h4>
+	{% else %}
+	  <p>Usuário não logado!</p>
+	  <a href="{% url 'login' %}">Login</a>
+	{% endif %}
+  </div>
+  
+  <script type="text/javascript" >
+	function formatarCampo(campoTexto) {
+		if (campoTexto.value.length <= 11) {
+			campoTexto.value = mascaraCpf(campoTexto.value);
+		} else {
+			campoTexto.value = mascaraCnpj(campoTexto.value);
+		}
+	}
+	function retirarFormatacao(campoTexto) {
+		campoTexto.value = campoTexto.value.replace(/(\.|\/|\-)/g,"");
+	}
+	function mascaraCpf(valor) {
+		return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g,"\$1.\$2.\$3\-\$4");
+	}
+	function mascaraCnpj(valor) {
+		return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,"\$1.\$2.\$3\/\$4\-\$5");
+	}
+  </script>  
+	
+  <div class="row">
+	<div class="col s3">
+	  <p><a href="http://localhost:8000/accounts/user/">Dados Gerais</a></p>
+	  <p><a href="#">API</a></p>
+    </div>
+	<div class="col s9">
+	  <div class="row">
+		<h6><b>Dados Básicos</b></h6>
+		  <form name="formb" id="formb">
+		  <label>Username:
+		  <input name="username" type="text" id="username" value="{{user.username}}" readonly /></label><br />
+		  <label>E-mail:
+		  <input name="email" type="text" id="email" value="{{user.email}}" readonly /></label><br />
+		  <label>Nome:
+		  <input name="firstname" type="text" id="firstname" value="{{user.first_name}}" /></label><br />
+		  <label>Sobrenome:
+		  <input name="lastname" type="text" id="lastname" value="{{user.last_name}}" /></label><br />
+		  <label>CNPJ:
+		  <input name="cnpj" type="text" id="cnpj" onfocus="javascript: retirarFormatacao(this);" onblur="javascript: formatarCampo(this);" maxlength="14" 
+			value="{{user.endereco.cnpj}}" placeholder="00.000.000/0000-00" /></label><br />		  
+		  <button type="submit" id="salvarbasico" class="btn right">Salvar</button>
+		</form>
+	  </div>
+	  
+	 
+	
+  <script type="text/javascript" >
+	$("#cpfcnpj").keydown(function(){
+		try {
+			$("#cpfcnpj").unmask();
+		} catch (e) {}
+		
+		var tamanho = $("#cpfcnpj").val().length;
+		
+		if(tamanho < 11){
+			$("#cpfcnpj").mask("999.999.999-99");
+		} else if(tamanho >= 11){
+			$("#cpfcnpj").mask("99.999.999/9999-99");
+		}
+		
+		// ajustando foco
+		var elem = this;
+		setTimeout(function(){
+			// mudo a posição do seletor
+			elem.selectionStart = elem.selectionEnd = 10000;
+		}, 0);
+		// reaplico o valor para mudar o foco
+		var currentValue = $(this).val();
+		$(this).val('');
+		$(this).val(currentValue);
+	});;
+	
+  </script>  
+	
+  <script type="text/javascript" >
+    
+    function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('uf').value=("");            
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('rua').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('cidade').value=(conteudo.localidade);
+            document.getElementById('uf').value=(conteudo.uf);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('rua').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('uf').value="...";                
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+
+  </script>
+	  
+	  <div class="row">
+		<h6><b>Endereço</b></h6>
+		<form method="get" action=".">
+  		  <label>CEP:
+		  <input name="cep" type="text" id="cep" value="{{user.endereco.cep}}" size="10" maxlength="9"
+		    onblur="pesquisacep(this.value);" /></label><br />
+		  <label>Rua:
+		  <input name="rua" type="text" id="rua" size="60" value="{{user.endereco.rua}}" /></label><br />
+		  <label>Bairro:
+		  <input name="bairro" type="text" id="bairro" size="40" value="{{user.endereco.bairro}}" /></label><br />
+		  <label>Cidade:
+		  <input name="cidade" type="text" id="cidade" size="40" value="{{user.endereco.cidade}}" /></label><br />
+		  <label>Estado:
+		  <input name="uf" type="text" id="uf" size="2" value="{{user.endereco.estado}}" /></label><br />
+		  <label>Complemento:
+		  <input name="complemento" type="text" id="complemento" size="100" value="{{user.endereco.complemento}}" /></label><br />
+		  <button type="submit" id="salvarend" class="btn right">Salvar</button>
+		</form>
+	  </div>
+	</div>
+  </div>    
+  
+{% endblock %}

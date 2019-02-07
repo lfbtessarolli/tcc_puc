@@ -1,0 +1,40 @@
+{% extends 'loja/layout.html' %}
+
+{% block content %}
+  <div class="row">
+	{% if user.is_authenticated %}
+	  <h4>Olá {{ user.first_name }}!</h4>
+	{% else %}
+	  <p>Usuário não logado!</p>
+	  <a href="{% url 'login' %}">Login</a>
+	{% endif %}
+  </div>
+  
+  
+  
+  <div class="row">
+	<div class="col s3">
+	  <p><a href="/accounts/user/" class="btn red lighten-2">Dados Gerais</a></p>
+	  <p><a href="/accounts/produtos/" class="btn red lighten-1">Produtos</a></p>
+    </div>
+	<div class="col s9">
+	  <div class="row">
+		<h6><b>Fornecedor</b></h6>
+		<form name="formu" id="formu" method="POST" action=".">{% csrf_token %}
+		  <label>Username:
+		  <input name="username" type="text" id="username" value="{{user.username}}" style="background-color:lightgrey;" readonly /></label><br />
+		  <label>E-mail:
+		  <input name="email" type="text" id="email" value="{{user.email}}" style="background-color:lightgrey;" readonly /></label><br />		  
+		</form>
+	  </div>
+	  <div class="row">
+		<h6><b>API Produtos</b></h6>
+		  <h3>O catálogo foi atualizado com Sucesso!!</h3>
+		  <form action="../">
+			<button type="submit" id="voltarprods" class="btn right">Voltar</button>
+		  </form>
+	  </div>
+	</div>
+  </div>    
+  
+{% endblock %}

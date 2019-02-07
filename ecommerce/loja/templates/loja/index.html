@@ -1,0 +1,24 @@
+{% extends 'loja/layout.html' %}
+
+{% block content %}
+<div class="row">
+	{% for produto in produtos %}
+		<div class="col m3">
+		  <div class="card">
+		    <div class="card-image">
+		    <a href="/loja/produto/{{produto.id}}"><img src={{produto.imagem.url}}></a>		  
+		    </div>
+		    <div class="card-content">
+			  <h6><b>{{produto.nome}}</b></h6>
+			  <p>{{produto.categoria}}</p>
+			  <p><i>{{produto.fornecedor.first_name}}</i></p>
+			  <p class="right"><b>R$ {{produto.preco}}</b></p>
+		    </div>
+		    <div class="card-action">
+			  <a href="/loja/produto/{{produto.id}}">DETALHES</a>
+		    </div>
+		  </div>
+		</div>
+	{% endfor %}
+</div>  
+{% endblock %}

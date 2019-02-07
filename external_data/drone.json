@@ -1,0 +1,9 @@
+{
+	"drone": [{
+		"modelo": "DJI Drone Mavic Air",
+		"cor": "Onyx Black",
+		"megapixels": "12MP",
+		"resolucao": "Até 3840 x 2160 pixels",
+		"autonomia": "21 min por Bateria"
+	}]
+}

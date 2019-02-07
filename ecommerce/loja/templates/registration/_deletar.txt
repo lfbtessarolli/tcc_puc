@@ -1,0 +1,20 @@
+<form name="formb" id="formb">
+		  <label>Username:
+		  <input name="username" type="text" id="username" value="{{user.username}}" readonly /></label><br />
+		  <label>E-mail:
+		  <input name="email" type="text" id="email" value="{{user.email}}" readonly /></label><br />
+		  <label>Nome:
+		  <input name="firstname" type="text" id="firstname" value="{{user.first_name}}" /></label><br />
+		  <label>Sobrenome:
+		  <input name="lastname" type="text" id="lastname" value="{{user.last_name}}" /></label><br />
+		  <label>CNPJ:
+		  <input name="cnpj" type="text" id="cnpj" onfocus="javascript: retirarFormatacao(this);" onblur="javascript: formatarCampo(this);" maxlength="14" 
+			value="{{user.endereco.cnpj}}" placeholder="00.000.000/0000-00" /></label><br />		  
+		  <button type="submit" id="salvarbasico" class="btn right">Salvar</button>
+		</form>
+		
+<form action="#" method="GET">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit" id="salvarbasico" class="btn right">Salvar</button>
+		  </form>
