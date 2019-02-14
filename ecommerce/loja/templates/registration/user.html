@@ -127,13 +127,13 @@
   </script>
   
   <div class="row">
-	<div class="col s3">
+	<div class="col s12 m3 l4">
 	  <p><a href="/accounts/user/" class="btn red lighten-1">Dados Gerais</a></p>
 	  {% if user.groups.all.0.name == "Fornecedor" %}
 	  <p><a href="/accounts/produtos/" class="btn red lighten-2">Produtos</a></p>
 	  {% endif %}
     </div>
-	<div class="col s9">
+	<div class="col s12 m9 l8">
 	  <div class="row">
 		<h6><b>Dados Básicos</b></h6>
 		<form name="formb" id="formb" method="POST" action=".">{% csrf_token %}

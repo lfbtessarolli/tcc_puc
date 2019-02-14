@@ -5,21 +5,33 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<title>Loja POC PUC</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	
 	<script	  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 			  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-			  crossorigin="anonymous"></script>
+			  crossorigin="anonymous">
+	</script>
+	
+	<script   src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+	</script>
+		
+	<script>
+		$(document).ready(function(){
+			$('.sidenav').sidenav();
+		  });
+	</script>
 	
   </head>
-  <body>
+  <body style="background-image:url('http://localhost:8000/loja/templates/sheep_bkg.svg');background-repeat:no-repeat;
+				background-position:center;">
 	<header>
-	  <div class="navbar-fixed">
+	  <div class="navbar">
 		<nav>
 		  <div class="nav-wrapper">
-			<a href="http://localhost:8000/loja/" class="brand-logo left">LOJA</a>
-			<ul id="nav-mobile" class="right">
+			<a href="http://localhost:8000/loja/" class="brand-logo"><span style="color:white">DROP</span><span style="color:black"><b>SHEEP</b></span></a>
+			<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
 			{% if user.is_authenticated %}  
 			  <li><a href="{% url 'logout' %}">Logout</a></li>
 			  <li><a href="http://localhost:8000/accounts/user/">User</a></li>
@@ -31,6 +43,17 @@
 			</ul>
 		  </div>
 		</nav>
+		<ul class="sidenav" id="mobile-demo">
+		  <li><a href="http://localhost:8000/loja/" class="brand-logo"><span style="color:red">DROP</span><span style="color:black"><b> SHEEP</b></span></a></li>
+		{% if user.is_authenticated %}  
+		  <li><a href="{% url 'logout' %}">Logout</a></li>
+		  <li><a href="http://localhost:8000/accounts/user/">User</a></li>
+		{% else %}
+		  <li><a href="http://localhost:8000/user/login">Login</a></li>
+		{% endif %}
+		  <li><a href="http://localhost:8000/fornecedor/">API</a></li>
+		  <li><a href="http://localhost:8000/admin/">Admin</a></li>
+		</ul>
 	  </div>	  
 	</header>
 	

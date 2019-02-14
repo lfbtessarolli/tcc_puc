@@ -2,14 +2,14 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s6">		
-	<h2>{{prods.nome}}</h2>
-	<h5>{{prods.categoria}}<h5>
-	<h4><i class="blue-text">{{prods.fornecedor.first_name}}</i></h4>
-	<h3>R$ {{prods.preco}}</h3>
+  <div class="col s12 m6 l4">		
+	<h2 style="font-size:calc(1.75em + 1vmin);">{{prods.nome}}</h2>
+	<h5 style="font-size:calc(0.5em + 1vmin);">{{prods.categoria}}<h5>
+	<h4 style="font-size:calc(0.75em + 1vmin);"><i class="blue-text">{{prods.fornecedor.first_name}}</i></h4>
+	<h3 style="font-size:calc(1.25em + 1vmin);">R$ {{prods.preco}}</h3>
 	<button class="btn-large center red">COMPRAR!</button>
   </div>
-  <div class="col s6">
+  <div class="col s12 m6 l8">
 	<img src={{prods.imagem.url}} class="responsive-img">
   </div>
 </div>
